@@ -1,45 +1,38 @@
-The repo contains 3 models in zip files as :
+**Model and Website Setup Instructions**
+This repository contains three models packaged in zip files, along with instructions for running them individually and deploying the website locally. Please follow the steps below:
 
-1.Fire_Smoke_detection_Implemented with Alert Messaging.zip
-
-2.Road_accident_with_alert_final.py
-
-3.Violence_demo(2).py   (updated one)
-
-
+**Models Included:**
+1. Fire_Smoke_detection_Implemented_with_Alert_Messaging.zip
+2. Road_accident_with_alert_final.py
+3. Violence_demo(2).py (Updated Version)
 
 
-TO run model individually just extract and install the dependecies using pip and edit the path for the model "best.pt" file and add your own path .
+**Running Models Individually**
+To run each model, follow these steps:
+
+1. Extract the Models: Unzip the model files.
+2. Edit Model Paths:
+Update the path for the best.pt model file to point to your local file location.
+Adjust the path for the sample video files included in the zip to your own video files.
 
 
+**Running the Final Deployed Website Locally**
+To set up and run the final deployed website, do the following:
 
-There are sample video for each included in the zip files as well so change the path for video as well to your own path 
-
-
-
-
-FOR RUNNING THE FINAL DEPLOYED WEBSITE ON LOCAL MACHINE
-
-
-1. Extract the Web_implementation_models.zip
+1. Extract the Website Files: Unzip the Web_implementation_models.zip.
+2. Refer to the README: Check the README file in the extracted folder for detailed setup instructions.
+3. Download and Extract Models:
+   -> Extract all the models mentioned above into the Web_implementation_models folder.
+   ->Due to size constraints, everything couldn't be in a single folder.
    
-3. REFER to the README FILE in the extracted file to set up the environment
+4. Combine Folders: Ensure all model folders and the web implementation folder are located in the same directory.
+5. Update Model Paths: Open pyserv.py and change the model paths to reflect your local file paths.
+6. Consult the README: For additional setup details, refer to the README inside the Web_implementation_models.zip.
+
    
-5. NOW DOWNLOAD AND EXTRACT ALL THE MODELS MENTIONED ABOVE IN THE "Web_implementation_models" FOLDER AS EVERYTHING IN A SINGLE FOLDER WAS NOT POSSIBLE DUE TO SIZE ISSUES
-   
-7. AFTER COMBINING ALL MODEL FOLDERS AND WEB IMPLEMENTATION FOLDER IN ONE PLACE CHANGE THE MODEL PATH IN THE pyserv.py TO THE ACTUAL LOCAL PATH
+**Output Results**
+After successfully executing the processes for both the models and the website, refer to OUTPUT.ZIP for the results.
 
-9. REFER TO THE README FOR MORE DETAILS INSIDE THE Web_implementation_models.zip
-
-
-AFTER SUCCESSFUL EXECUTION OF THE PROCESS FOR MODELS AND WEBSITE REFER TO "OUTPUT.ZIP" FOR RESULTS
-
-
-""""NOTE :  ALRET IMPLEMENTATION IS DONE USING TWILIO AND IT NEEDS THE DETAILS OF USER TO LOGIN AND MAKE TWILIO ACCOUNT SO REPLACE THE CREDENTIALS WITH THE NEW ONE ELSE THE CODE MIGHT RUN INTO ERROR"""
-  
-
-
-
-
-
-
+**Important Note**
+Alert Implementation: The alert system is implemented using Twilio. To use it, you need to create a Twilio account.
+Replace the provided credentials with your own Twilio account details; otherwise, the code may run into errors.
