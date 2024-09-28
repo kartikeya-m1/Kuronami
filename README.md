@@ -23,12 +23,14 @@ To set up and run the final deployed website, do the following:
 1. Extract the Website Files: Unzip the Web_implementation_models.zip.
 2. Refer to the README: Check the README file in the extracted folder for detailed setup instructions.
 3. Download and Extract Models:
+   
    -> Extract all the models mentioned above into the Web_implementation_models folder.
+   
    ->Due to size constraints, everything couldn't be in a single folder.
    
-4. Combine Folders: Ensure all model folders and the web implementation folder are located in the same directory.
-5. Update Model Paths: Open pyserv.py and change the model paths to reflect your local file paths.
-6. Consult the README: For additional setup details, refer to the README inside the Web_implementation_models.zip.
+5. Combine Folders: Ensure all model folders and the web implementation folder are located in the same directory.
+6. Update Model Paths: Open pyserv.py and change the model paths to reflect your local file paths.
+7. Consult the README: For additional setup details, refer to the README inside the Web_implementation_models.zip.
 
    
 **Output Results**
