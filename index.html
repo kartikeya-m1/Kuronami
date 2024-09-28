@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safety Siren - Video Detection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(45deg, #1e3c72, #2a5298);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+            color: #f1c40f;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-top: 40px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.2);
+            max-width: 700px;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        form:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        label {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        input[type="file"]::file-selector-button {
+            margin-right: 10px;
+            padding: 10px;
+            background-color: #f1c40f;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #333;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            background-color: #e67e22;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #f1c40f;
+            color: #333;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e67e22;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .loading {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .loading div {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background-color: #f1c40f;
+            border-radius: 50%;
+            animation: loadingBounce 1.4s infinite ease-in-out both;
+        }
+
+        .loading div:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .loading div:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes loadingBounce {
+            0%, 100% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1);
+            }
+        }
+
+        .faq {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.2);
+            max-width: 700px;
+            width: 100%;
+            margin-bottom: 40px;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+        }
+
+        .faq-question {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #f1c40f;
+            cursor: pointer;
+        }
+
+        .faq-answer {
+            display: none;
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #ddd;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .team {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            max-width: 700px;
+            width: 100%;
+        }
+
+        .team-member {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+            text-align: center;
+            width: 45%;
+        }
+
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .social-links {
+            margin-top: 10px;
+        }
+
+        .social-links a {
+            color: #f1c40f;
+            font-size: 1.5rem;
+            margin: 0 5px;
+            text-decoration: none;
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        footer a {
+            color: #f1c40f;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #e67e22;
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Safety Siren - Video Detection</h1>
+
+        <!-- Fire Detection Form -->
+        <form id="fireForm" enctype="multipart/form-data">
+            <label for="fireVideo">Fire Detection Video:</label>
+            <input type="file" id="fireVideo" name="video" accept="video/*">
+            <button type="submit">Start Fire Detection</button>
+        </form>
+
+        <!-- Accident Detection Form -->
+        <form id="accidentForm" enctype="multipart/form-data">
+            <label for="accidentVideo">Accident Detection Video:</label>
+            <input type="file" id="accidentVideo" name="video" accept="video/*">
+            <button type="submit">Start Accident Detection</button>
+        </form>
+
+        <!-- Violence Detection Form -->
+        <form id="violenceForm" enctype="multipart/form-data">
+            <label for="violenceVideo">Violence Detection Video:</label>
+            <input type="file" id="violenceVideo" name="video" accept="video/*">
+            <button type="submit">Start Violence Detection</button>
+        </form>
+
+        <!-- Loading Animation -->
+        <div class="loading" id="loading">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq">
+        <div class="faq-item">
+            <div class="faq-question">What is Safety Siren?</div>
+            <div class="faq-answer">Safety Siren is an AI-powered video detection system that helps in detecting incidents like fire, accidents, and violence from video footage.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">How do I upload a video for detection?</div>
+            <div class="faq-answer">You can upload videos for detection using the respective forms for Fire, Accident, or Violence detection on this page.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">What types of video formats are supported?</div>
+            <div class="faq-answer">Currently, Safety Siren supports MP4, AVI, and MOV video formats.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">How accurate is the detection system?</div>
+            <div class="faq-answer">Our system uses advanced AI algorithms to provide high accuracy. However, accuracy may vary depending on video quality and environmental factors.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Is my video data kept confidential?</div>
+            <div class="faq-answer">Yes, we take data privacy seriously. All uploaded videos are processed securely and are not stored after analysis.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Is this service free to use?</div>
+            <div class="faq-answer">Yes, Safety Siren is currently free to use for demonstration purposes.</div>
+        </div>
+    </div>
+
+    <h2>Team Kuronami</h2>
+    <div class="team">
+        <div class="team-member">
+            <img src="ved.jpg" alt="Ved Raut">
+            <h3>Ved Raut</h3>
+            <p>3rd Year CSE CORE, VIT Vellore</p>
+            <p>Developed the AI models for fire, accident, and violence detection.</p>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/ved-raut" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+            </div>
+        </div>
+        <div class="team-member">
+            <img src="kartikeya.jpg" alt="Kartikeya Mudliyar">
+            <h3>Kartikeya Mudliyar</h3>
+            <p>3rd Year AI/DS, NMIMS Mumbai</p>
+            <p>Integrated AI models into the backend and frontend systems.</p>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/kartikeya-mudliyar" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Safety Siren. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a> | <a href="#contact">Contact Us</a></p>
+    </footer>
+
+    <script>
+        const loadingElement = document.getElementById('loading');
+
+        const showLoading = () => {
+            loadingElement.style.display = 'block';
+        };
+
+        const hideLoading = () => {
+            loadingElement.style.display = 'none';
+        };
+
+        document.getElementById('fireForm').onsubmit = async (e) => {
+            e.preventDefault();
+            showLoading();
+            const formData = new FormData();
+            formData.append("video", document.getElementById('fireVideo').files[0]);
+            
+            await fetch('http://localhost:3000/upload_fire_detection', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.json())
+              .then(data => {
+                  console.log(data);
+                  hideLoading();
+                  alert('Fire detection started successfully!');
+              })
+              .catch(error => {
+                  console.error(error);
+                  hideLoading();
+                  alert('Error starting fire detection!');
+              });
+        };
+
+        document.getElementById('accidentForm').onsubmit = async (e) => {
+            e.preventDefault();
+            showLoading();
+            const formData = new FormData();
+            formData.append("video", document.getElementById('accidentVideo').files[0]);
+
+            await fetch('http://localhost:3000/upload_accident_detection', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.json())
+              .then(data => {
+                  console.log(data);
+                  hideLoading();
+                  alert('Accident detection started successfully!');
+              })
+              .catch(error => {
+                  console.error(error);
+                  hideLoading();
+                  alert('Error starting accident detection!');
+              });
+        };
+
+        document.getElementById('violenceForm').onsubmit = async (e) => {
+            e.preventDefault();
+            showLoading();
+            const formData = new FormData();
+            formData.append("video", document.getElementById('violenceVideo').files[0]);
+
+            await fetch('http://localhost:3000/upload_violence_detection', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.json())
+              .then(data => {
+                  console.log(data);
+                  hideLoading();
+                  alert('Violence detection started successfully!');
+              })
+              .catch(error => {
+                  console.error(error);
+                  hideLoading();
+                  alert('Error starting violence detection!');
+              });
+        };
+
+        // Toggle FAQ
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', () => {
+                const parent = item.parentElement;
+                parent.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
